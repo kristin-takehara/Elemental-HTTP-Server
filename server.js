@@ -15,8 +15,16 @@ const server = http.createServer((request, response) => {
 });
 //////DO WORK HERE
   const pathName = querystring.unescape(request.url);
+////REQUEST
 
+
+
+
+////RESPONSE
+//check if file exists, (fs function)
   fs.readFile('./public' + pathName, (err, data) => {
+     // if yes:readFile/if not:404
+    //create file for favico!
     if(err){
       response.writeHead(404, {
         'Content-Type': 'application/json',
