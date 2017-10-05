@@ -2,7 +2,6 @@
 
 const http = require('http');
 const fs = require('fs');
-const url = require('url');
 const querystring = require('querystring');
 
 const PORT = process.env.PORT || 8080;
@@ -15,11 +14,14 @@ const server = http.createServer((request, response) => {
   console.log('Client Disconnected');
 });
 //////DO WORK HERE
-  const pathName = url.parse(request.url).pathname;
+  const pathName = querystring.unescape(request.url);
 
   fs.readFile('./public' + pathName, (err, data) => {
     if(err){
-      response.writeHead(404);
+      response.writeHead(404, {
+        'Content-Type': 'application/json',
+        'success' : true
+      });
       response.write('Page Not Found');
       response.end();
     }else{
