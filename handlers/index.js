@@ -1,4 +1,7 @@
 //jshint esversion: 6
+const http = require('http');
+const fs = require('fs');
+const querystring = require('querystring');
 
 module.exports = {
   getRequest: getRequest
@@ -12,8 +15,8 @@ const pathName = querystring.unescape(request.url);
   fs.stat('./public' + pathName, (err, stats) => {
     if(err){
       console.log('Error');
-    }else{
-      stats.isFile();
+    }
+    if (stats.isFile()) {//checks - does the file exist? ->returns truthy
       // if yes:readFile
       fs.readFile('./public' + pathName, (err, data) => {
       // if not:404
@@ -30,6 +33,11 @@ const pathName = querystring.unescape(request.url);
           response.end();
         }
       });
+    }else{
+      fs.writeFile('./public/' + pathName + '.html', data, (err) => {
+        if (err) throw err;
+        console.log('New File Saved');
+        });
     }
   });
 }

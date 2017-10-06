@@ -11,7 +11,7 @@ const HOST = '0.0.0.0';
 
 const server = http.createServer((request, response) => {
   console.log('Client Connected');
-
+  server.on('data', (data) => {
 ////REQUEST
   switch(request.method){
     case 'GET':
@@ -20,11 +20,16 @@ const server = http.createServer((request, response) => {
       break;
     case 'POST':
       //process POST request
+      handlers.getRequest(request, response);
+      break;
+    case 'PUT':
+      //process PUT requests
+      handlers.getRequest(request, response);
       break;
     default:
       console.log('Error Occurred');
-  }
-
+    }
+  });
 });
 
 server.on('end', ()=> {
