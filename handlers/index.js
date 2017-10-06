@@ -4,11 +4,44 @@ const fs = require('fs');
 const querystring = require('querystring');
 
 module.exports = {
-  getRequest: getRequest
-
+  getRequest: getRequest,
+  postRequest: postRequest
 };
 
-function getRequest(request, response){
+function getRequest(request, response) {
+const pathName = request.url;
+
+let resource = './public';
+  if(pathName === '/') {
+    resource += '/index.html';
+  }else{
+    resource += pathName;
+  }
+//if the url request does not exist, throw error
+//if the url request has a resource that exists
+//readFile
+//return the file to the client
+
+  fs.readFile(resource, (err, data) => {
+    if (err){
+      response.writeHead(404, {
+        'Content-Type': 'application/json',
+        'success': false
+      });
+      response.write('Page Not Found');
+      response.end();
+    }else{
+      response.writeHead(200);//<<-- PICK UP HERE -- content type, content length
+      response.write(data);
+      response.end();
+      }
+  });
+
+}
+
+
+
+function postRequest(request, response){
   //////RESPONSE readFile here
 const pathName = querystring.unescape(request.url);
 // check if file exists, (fs function)
