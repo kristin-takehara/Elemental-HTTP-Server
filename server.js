@@ -21,10 +21,10 @@ const server = http.createServer((request, response) => {
       //process GET request
       handlers.getRequest(request, response);
       break;
-    // case 'POST':
-    //   //process POST request
-    //   handlers.getRequest(request, response);
-    //   break;
+    case 'POST':
+      //process POST request
+      handlers.postRequest(request, response);
+      break;
     // case 'PUT':
     //   //process PUT requests
     //   handlers.getRequest(request, response);

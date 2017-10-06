@@ -31,7 +31,10 @@ let resource = './public';
       response.write('Page Not Found');
       response.end();
     }else{
-      response.writeHead(200);//<<-- PICK UP HERE -- content type, content length
+      response.writeHead(200, {
+        'Content-Type': 'application/json', //<<-- Do I need content length?
+        'success': true
+      });
       response.write(data);
       response.end();
       }
@@ -56,39 +59,27 @@ const pathName = querystring.unescape(request.url);
         if(err){
           response.writeHead(404, {
           'Content-Type': 'application/json',
-          'success' : true
+          'success' : false
         });
           response.write('Page Not Found');
           response.end();
         }else{
-          response.writeHead(200);
+          response.writeHead(200, {
+          'Content-Type': 'application/json',
+          'success' : true
+        });
           response.write(data);
           response.end();
         }
       });
     }else{
+      console.log('New File Saved');
       fs.writeFile('./public/' + pathName + '.html', data, (err) => {
         if (err) throw err;
-        console.log('New File Saved');
+        console.log('Error');
         });
     }
   });
 }
-//   fs.readFile('./public' + pathName, (err, data) => {
-//      // if yes:readFile/if not:404
-//     //create file for favico!
-//     if(err){
-//       response.writeHead(404, {
-//         'Content-Type': 'application/json',
-//         'success' : true
-//       });
-//       response.write('Page Not Found');
-//       response.end();
-//     }else{
-//       response.writeHead(200);
-//       response.write(data);
-//       response.end();
-//     }
-//   });
-// }
+
 //create file for favico!
